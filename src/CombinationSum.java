@@ -2,7 +2,7 @@ import java.util.*;
 
 /**
  * Created by flex on 17-2-22.
- * number: 39, 40
+ * number: 39, 40, 216 - Combination Sum
  * @author flex
  */
 
@@ -45,15 +45,32 @@ public class CombinationSum {
     public List<List<Integer>> combinationSumII(int[] candidates, int target) {
         Map<Integer, List<List<Integer>>> op = new HashMap<>();
         Arrays.sort(candidates);
-        Collections.reverse(Arrays.asList(candidates));    // 1, 1, 2, 5, 6, 7, 10
         for (int num=candidates[0]; num<=target; num++) {
-            List<List<Integer>> list = new ArrayList<>();
-            for (int candi: candidates) {
-                if (candi > num) {
-                    break;
-                } else if (candi == num && (!op.containsKey(candi))) {
-                    list.add(Collections.singletonList(num));
-                } else if (num-candi <= candi && op.containsKey(candi)) {
+            op.put(num, new ArrayList<>());
+        }
+        Map<Integer, Integer> numCount = new HashMap<>();
+        for (int candi: candidates) {
+            if (candi > target) break;
+            if (numCount.containsKey(candi)) {
+                numCount.put(candi, numCount.get(candi)+1);
+            } else {
+                numCount.put(candi, 1);
+            }
+        }
+        for (int key: numCount.keySet()) {
+            for (int count=2; count<=numCount.get(key); count++) {
+                if (count*key <= target) {
+                    List<Integer> list = new ArrayList<>();
+                    for (int i=0; i<count; i++) list.add(key);
+                    op.get(count*key).add(list);
+                }
+            }
+        }
+        for (int num=candidates[0]; num<=target; num++) {
+            List<List<Integer>> list = op.get(num);
+            for (int candi: numCount.keySet()) {
+                if (candi >= num) continue;
+                if (num-candi <= candi) {
                     for (List<Integer> l: op.get(candi)) {
 
                     }

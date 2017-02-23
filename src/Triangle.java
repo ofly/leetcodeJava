@@ -1,17 +1,13 @@
-import com.sun.org.apache.xml.internal.utils.ListingErrorHandler;
-
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by flex on 17-2-23.
- * @author flex
  * no.120 Triangle
+ * @author flex
  */
 
-/**
- * Given a triangle, find the minimum path sum from top to bottom.
- */
+/* Given a triangle, find the minimum path sum from top to bottom. */
 public class Triangle {
 
     /* Each step you may move to adjacent numbers on the row below.
