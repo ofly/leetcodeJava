@@ -4,13 +4,20 @@ import java.util.List;
 /**
  * Created by flex on 17-2-23.
  * no.54 Spiral Matrix
+ * no.59 Spiral Matrix II
  * @author flex
  */
 
+/* Problem 54: Given a matrix of m x n elements (m rows, n columns),
+ * return all elements of the matrix in spiral order.
+ *
+ * Problem 59: Given an integer n, generate a square matrix filled
+ * with elements from 1 to n^2 in spiral order.
+ */
 public class SpiralMatrix {
 
     /*ugly, unreadable*/
-    public List<Integer> spiralOrder(int[][] matrix) {
+    private List<Integer> spiralOrder(int[][] matrix) {
         List<Integer> results = new ArrayList<>();
         int xlen = matrix.length;
         if (xlen == 0) return results;
@@ -39,14 +46,14 @@ public class SpiralMatrix {
     }
 
     /* easy understand */
-    public List<Integer> spiralOrder2(int[][] matrix) {
+    private List<Integer> spiralOrder2(int[][] matrix) {
         List<Integer> results = new ArrayList<>();
         if (matrix.length == 0) return results;
         int m = matrix.length, n = matrix[0].length;
         // u - upper line, d - down line, l - left column, r - right column
         int u = 0, d = m - 1, l = 0, r = n - 1, k = 0;
         while (true) {
-            // up line
+            // upper line
             for (int col = l; col <= r; col++) results.add(matrix[u][col]);
             if (++u > d) break;
             // right column
@@ -60,6 +67,38 @@ public class SpiralMatrix {
             if (++l > r) break;
         }
         return results;
+    }
+
+    /* gen spiral square matrix */
+    private int[][] generateMatrix(int n) {
+        int l = 0, r = n-1, u = 0, d = n-1;
+        int matrix[][] = new int[n][n];
+        int num = 1, max = n*n;
+        while (num <= max) {
+            // upper line
+            for (int i=l; i<=r; i++) matrix[u][i] = num++;
+            u++;
+            // right column
+            for (int i=u; i<=d; i++) matrix[i][r] = num++;
+            r--;
+            // down column
+            for (int i=r; i>=l; i--) matrix[d][i] = num++;
+            d--;
+            // left line
+            for (int i=d; i>=u; i--) matrix[i][l] = num++;
+            l++;
+        }
+        return matrix;
+    }
+
+    private static void printMatrix(String msg, int[][] matrix) {
+        System.out.printf("%s:\n", msg);
+        for (int[] array: matrix) {
+            for (int num: array) {
+                System.out.printf("%-3d ", num);
+            }
+            System.out.println();
+        }
     }
 
     public static void main(String[] args) {
@@ -77,5 +116,9 @@ public class SpiralMatrix {
             System.out.printf("%-3d", results.get(i));
         }
         System.out.println();
+
+        System.out.println("-------------------");
+        int[][] m = sm.generateMatrix(3);
+        printMatrix("generateMatrix(3):", m);
     }
 }
